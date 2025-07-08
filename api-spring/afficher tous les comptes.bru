@@ -1,0 +1,11 @@
+meta {
+  name: afficher tous les comptes
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:9000/api/user
+  body: none
+  auth: inherit
+}

@@ -6,10 +6,9 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -26,4 +25,19 @@ public class UserController {
                 .body(userService.addUser(user)
                 );
     }
+
+    @GetMapping
+    public ResponseEntity<Iterable<User>> findAllUsers() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.getAllUser());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> findUserById(@PathVariable Integer id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.getUserById(id).get());
+    }
+
 }
