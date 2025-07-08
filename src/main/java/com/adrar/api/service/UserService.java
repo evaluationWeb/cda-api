@@ -2,10 +2,11 @@ package com.adrar.api.service;
 
 import com.adrar.api.model.User;
 import com.adrar.api.repository.UserRepository;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -14,7 +15,7 @@ public class UserService {
     private UserRepository userRepository;
 
     //ajout
-    public User addUser(User user) {
+    public User addUser(@NotNull User user) {
         if(userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Le compte existe déja");
         }
@@ -22,8 +23,20 @@ public class UserService {
     }
 
     //mettre à jour
+    public User updateUser(@NotNull User user) {
+        if(!getUserByEmail(user.getEmail())) {
+            throw new RuntimeException("Le compte n'existe pas");
+        }
+        return userRepository.save(user);
+    }
 
     //récupérer par id
+    public Optional<User> getUserById(@NotNull Integer id) {
+        if(!userRepository.existsById(id)) {
+            throw new RuntimeException("Le compte n'existe pas");
+        }
+        return userRepository.findById(id);
+    }
 
     //récupérer tous
     public Iterable<User> getAllUser(){
@@ -34,8 +47,16 @@ public class UserService {
     }
 
     //récupérer par email
-    public boolean getUserByEmail(String email) {
+    public boolean getUserByEmail(@NotNull String email) {
         return userRepository.existsByEmail(email);
     }
+
     //supprimer
+    public boolean deleteUserById(@NotNull Integer id) {
+        if(!userRepository.existsById(id)) {
+            throw new RuntimeException("Le compte n'existe pas");
+        }
+        userRepository.deleteById(id);
+        return true;
+    }
 }
