@@ -1,5 +1,9 @@
 package com.adrar.api.service;
 
+import com.adrar.api.exception.EmailAllReadyUseException;
+import com.adrar.api.exception.EmptyUserListException;
+import com.adrar.api.exception.UserExistException;
+import com.adrar.api.exception.UserIsNotExistException;
 import com.adrar.api.model.User;
 import com.adrar.api.repository.UserRepository;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +21,7 @@ public class UserService {
     //ajout
     public User addUser(@NotNull User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Le compte existe déja");
+            throw new UserExistException("Le compte existe déja");
         }
         return userRepository.save(user);
     }
@@ -25,7 +29,7 @@ public class UserService {
     //mettre à jour
     public User updateUser(@NotNull User user) {
         if (!getUserByEmail(user.getEmail())) {
-            throw new RuntimeException("Le compte n'existe pas");
+            throw new UserIsNotExistException("Le compte n'existe pas");
         }
         return userRepository.save(user);
     }
@@ -33,7 +37,7 @@ public class UserService {
     //récupérer par id
     public Optional<User> getUserById(@NotNull Integer id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("Le compte n'existe pas");
+            throw new UserIsNotExistException("Le compte n'existe pas");
         }
         return userRepository.findById(id);
     }
@@ -41,7 +45,7 @@ public class UserService {
     //récupérer tous
     public Iterable<User> getAllUser() {
         if (userRepository.count() == 0) {
-            throw new RuntimeException("la liste est vide");
+            throw new EmptyUserListException("la liste est vide");
         }
         return userRepository.findAll();
     }
@@ -54,7 +58,7 @@ public class UserService {
     //supprimer
     public boolean deleteUserById(@NotNull Integer id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("Le compte n'existe pas");
+            throw new UserIsNotExistException("Le compte n'existe pas");
         }
         userRepository.deleteById(id);
         return true;
@@ -63,7 +67,7 @@ public class UserService {
     public User updateUserFirstnameAndLastname(@NotNull User user, @NotNull Integer id) {
         User updatedUser = userRepository.findById(id).orElse(null);
         if (updatedUser.equals(null)) {
-            throw new RuntimeException("Le compte n'existe pas");
+            throw new UserIsNotExistException("Le compte n'existe pas");
         }
         updatedUser.setFirstname(user.getFirstname());
         updatedUser.setLastname(user.getLastname());
@@ -73,10 +77,10 @@ public class UserService {
     public User updateUserEmail(@NotNull String email, @NotNull Integer id) {
         User updatedUser = userRepository.findById(id).orElse(null);
         if (updatedUser.equals(null)) {
-            throw new RuntimeException("Le compte n'existe pas");
+            throw new UserIsNotExistException("Le compte n'existe pas");
         }
         if(userRepository.existsByEmail(email)) {
-            throw new RuntimeException("Email déja utilisé");
+            throw new EmailAllReadyUseException("Email déja utilisé");
         }
         updatedUser.setEmail(email);
         return userRepository.save(updatedUser);
