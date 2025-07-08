@@ -19,7 +19,7 @@ public class UserController {
 
     //Ajouter un utilisateur
     @PostMapping
-    public ResponseEntity<User> saveUser(@NotNull @RequestBody User user) {
+    public ResponseEntity<User> createUser(@NotNull @RequestBody User user) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.addUser(user)
@@ -38,5 +38,40 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.getUserById(id));
+    }
+
+    @PutMapping
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.updateUser(user)
+                );
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<User> updateFirstnameAndLastnameUserById(@RequestBody User user, @PathVariable Integer id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.updateUserFirstnameAndLastname(user, id));
+    }
+
+    @PatchMapping("/v2/{id}")
+    public ResponseEntity<User> updateEmailUserById(@PathVariable Integer id, @RequestBody User user) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.updateUserEmail(user.getEmail(),id)
+                );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUserById(@PathVariable Integer id) {
+        boolean delete = userService.deleteUserById(id);
+        String message = "";
+        if(delete) {
+            message = "Supprimé";
+        }
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(message);
     }
 }

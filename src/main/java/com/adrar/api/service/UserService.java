@@ -16,7 +16,7 @@ public class UserService {
 
     //ajout
     public User addUser(@NotNull User user) {
-        if(userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new RuntimeException("Le compte existe déja");
         }
         return userRepository.save(user);
@@ -24,7 +24,7 @@ public class UserService {
 
     //mettre à jour
     public User updateUser(@NotNull User user) {
-        if(!getUserByEmail(user.getEmail())) {
+        if (!getUserByEmail(user.getEmail())) {
             throw new RuntimeException("Le compte n'existe pas");
         }
         return userRepository.save(user);
@@ -32,15 +32,15 @@ public class UserService {
 
     //récupérer par id
     public Optional<User> getUserById(@NotNull Integer id) {
-        if(!userRepository.existsById(id)) {
+        if (!userRepository.existsById(id)) {
             throw new RuntimeException("Le compte n'existe pas");
         }
         return userRepository.findById(id);
     }
 
     //récupérer tous
-    public Iterable<User> getAllUser(){
-        if(userRepository.count() ==0) {
+    public Iterable<User> getAllUser() {
+        if (userRepository.count() == 0) {
             throw new RuntimeException("la liste est vide");
         }
         return userRepository.findAll();
@@ -53,10 +53,32 @@ public class UserService {
 
     //supprimer
     public boolean deleteUserById(@NotNull Integer id) {
-        if(!userRepository.existsById(id)) {
+        if (!userRepository.existsById(id)) {
             throw new RuntimeException("Le compte n'existe pas");
         }
         userRepository.deleteById(id);
         return true;
+    }
+
+    public User updateUserFirstnameAndLastname(@NotNull User user, @NotNull Integer id) {
+        User updatedUser = userRepository.findById(id).orElse(null);
+        if (updatedUser.equals(null)) {
+            throw new RuntimeException("Le compte n'existe pas");
+        }
+        updatedUser.setFirstname(user.getFirstname());
+        updatedUser.setLastname(user.getLastname());
+        return userRepository.save(updatedUser);
+    }
+
+    public User updateUserEmail(@NotNull String email, @NotNull Integer id) {
+        User updatedUser = userRepository.findById(id).orElse(null);
+        if (updatedUser.equals(null)) {
+            throw new RuntimeException("Le compte n'existe pas");
+        }
+        if(userRepository.existsByEmail(email)) {
+            throw new RuntimeException("Email déja utilisé");
+        }
+        updatedUser.setEmail(email);
+        return userRepository.save(updatedUser);
     }
 }
