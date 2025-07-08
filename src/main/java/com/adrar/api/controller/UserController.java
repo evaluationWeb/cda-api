@@ -34,10 +34,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable Integer id) {
+    public ResponseEntity<Optional<User>> findUserById(@PathVariable @NotNull Integer id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(userService.getUserById(id).get());
+                .body(userService.getUserById(id));
     }
-
 }
