@@ -2,7 +2,6 @@ package com.adrar.api.controller;
 
 import com.adrar.api.model.User;
 import com.adrar.api.service.UserService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ public class UserController {
 
     //Ajouter un utilisateur
     @PostMapping
-    public ResponseEntity<User> createUser(@NotNull @RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.addUser(user)
@@ -34,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> findUserById(@PathVariable @NotNull Integer id) {
+    public ResponseEntity<Optional<User>> findUserById(@PathVariable Integer id) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.getUserById(id));
