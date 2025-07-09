@@ -1,15 +1,13 @@
 package com.adrar.api.service;
 
-import com.adrar.api.exception.AuthorEmptyListException;
-import com.adrar.api.exception.AuthorExistException;
-import com.adrar.api.exception.AuthorIsNotExistException;
+import com.adrar.api.exception.author.AuthorEmptyListException;
+import com.adrar.api.exception.author.AuthorExistException;
+import com.adrar.api.exception.author.AuthorIsNotExistException;
 import com.adrar.api.model.Author;
 import com.adrar.api.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
+
 
 @Service
 public class AuthorService {
