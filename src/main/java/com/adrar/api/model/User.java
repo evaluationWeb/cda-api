@@ -1,6 +1,8 @@
 package com.adrar.api.model;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -14,9 +16,28 @@ public class User {
     private String lastname;
     @Column(nullable = false, length = 50, unique = true)
     private String email;
-    @Column(length = 100)
+    @Column(nullable = false, length = 100)
     private String password;
 
+    @ManyToMany
+    @JoinTable(
+            name ="user_book",
+            joinColumns = @JoinColumn( name = "id_user" ),
+            inverseJoinColumns = @JoinColumn( name = "id_book" )
+    )
+    private List<Book> books;
+
+    public User() {
+        this.books = new ArrayList<>();
+    }
+
+    public User(String firstname, String lastname, String email, String password) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.books = new ArrayList<>();
+    }
     public void setId(Integer id) {
         this.id = id;
     }
@@ -55,5 +76,17 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void addBook(Book book) {
+        this.books.add(book);
+    }
+
+    public void removeBook(Book book) {
+        this.books.remove(book);
     }
 }
