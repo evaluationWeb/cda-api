@@ -1,8 +1,8 @@
 package com.adrar.api.service;
 
-import com.adrar.api.exception.CategoryExistException;
-import com.adrar.api.exception.CategoryIsNotExistException;
-import com.adrar.api.exception.EmptyCategoryListException;
+import com.adrar.api.exception.category.CategoryExistException;
+import com.adrar.api.exception.category.CategoryIsNotExistException;
+import com.adrar.api.exception.category.EmptyCategoryListException;
 import com.adrar.api.model.Category;
 import com.adrar.api.repository.CategoryRepository;
 import lombok.AllArgsConstructor;

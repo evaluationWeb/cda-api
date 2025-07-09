@@ -1,9 +1,9 @@
 package com.adrar.api.service;
 
-import com.adrar.api.exception.EmailAllReadyUseException;
-import com.adrar.api.exception.EmptyUserListException;
-import com.adrar.api.exception.UserExistException;
-import com.adrar.api.exception.UserIsNotExistException;
+import com.adrar.api.exception.user.EmailAllReadyUseException;
+import com.adrar.api.exception.user.EmptyUserListException;
+import com.adrar.api.exception.user.UserExistException;
+import com.adrar.api.exception.user.UserIsNotExistException;
 import com.adrar.api.model.User;
 import com.adrar.api.repository.UserRepository;
 import org.jetbrains.annotations.NotNull;

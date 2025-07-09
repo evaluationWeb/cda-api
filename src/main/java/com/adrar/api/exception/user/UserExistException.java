@@ -1,4 +1,4 @@
-package com.adrar.api.exception;
+package com.adrar.api.exception.user;
 
 public class UserExistException extends RuntimeException {
     public UserExistException(String message) {
