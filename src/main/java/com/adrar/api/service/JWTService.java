@@ -3,10 +3,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
-import org.springframework.security.oauth2.jwt.JwsHeader;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
 
@@ -15,9 +12,10 @@ public class JWTService {
 
     //import des dépendances
     private final JwtEncoder jwtEncoder;
-
-    public JWTService(JwtEncoder jwtEncoder) {
+    private final JwtDecoder jwtDecoder;
+    public JWTService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
         this.jwtEncoder = jwtEncoder;
+        this.jwtDecoder = jwtDecoder;
     }
 
     //Méthode pour générer un JWT avec les informations d'authentification
@@ -32,5 +30,10 @@ public class JWTService {
         JwtEncoderParameters jwtEncoderParameters = JwtEncoderParameters.from(JwsHeader.with(MacAlgorithm.HS256).build(), claims);
         return this.jwtEncoder.encode(jwtEncoderParameters).getTokenValue();
     }
-}
 
+    // Méthode pour extraire le username à partir du token JWT
+    public String getUsernameFromToken(String token) {
+        Jwt decodedJwt = jwtDecoder.decode(token);
+        return decodedJwt.getSubject();
+    }
+}

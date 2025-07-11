@@ -9,11 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,5 +66,18 @@ public class RegisterController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Test successful");
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDetails> test2(@RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw  new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        String token = authorizationHeader.substring(7); // Retire "Bearer "
+        String username = jwtService.getUsernameFromToken(token);
+        UserDetails user =  userInfoService.loadUserByUsername(username);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(user);
     }
 }
