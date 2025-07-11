@@ -1,9 +1,12 @@
-package com.adrar.api.dto;
+package com.adrar.api.service;
 
+import com.adrar.api.dto.BookDTO;
 import com.adrar.api.model.Book;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BookDTOWrapper {
-    public static BookDTO wrapBookToBookDTO(Book book) {
+    public BookDTO wrapBookToBookDTO(Book book) {
         return new BookDTO(
                 book.getTitle(),
                 book.getCreatedAt(),

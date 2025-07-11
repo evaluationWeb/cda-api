@@ -1,7 +1,6 @@
 package com.adrar.api.service;
 
 import com.adrar.api.dto.BookDTO;
-import com.adrar.api.dto.BookDTOWrapper;
 import com.adrar.api.exception.BookEmptyListException;
 import com.adrar.api.model.Book;
 import com.adrar.api.repository.BookRepository;
@@ -16,6 +15,8 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private BookDTOWrapper bookDTOWrapper;
     public Iterable<Book> getAllBooks() {
         if(bookRepository.count() == 0) {
             throw new BookEmptyListException("La liste des livres est vide");
@@ -29,13 +30,13 @@ public class BookService {
         }
         List<BookDTO> books = new ArrayList<>();
         for(Book book : bookRepository.findAll()) {
-            books.add(BookDTOWrapper.wrapBookToBookDTO(book));
+            books.add(bookDTOWrapper.wrapBookToBookDTO(book));
         }
        return books;
     }
 
     public Stream<BookDTO> getBooksDTOById(Long id) {
         return bookRepository.findById(id).stream().map(
-                BookDTOWrapper::wrapBookToBookDTO);
+                bookDTOWrapper::wrapBookToBookDTO);
     }
 }

@@ -1,7 +1,6 @@
 package com.adrar.api.controller;
 
 import com.adrar.api.dto.BookDTO;
-import com.adrar.api.dto.BookDTOWrapper;
 import com.adrar.api.model.Book;
 import com.adrar.api.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
