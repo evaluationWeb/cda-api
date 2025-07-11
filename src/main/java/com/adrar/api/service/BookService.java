@@ -39,4 +39,8 @@ public class BookService {
         return bookRepository.findById(id).stream().map(
                 bookDTOWrapper::wrapBookToBookDTO);
     }
+
+    public Book addBook(Book book) {
+        return bookRepository.save(book);
+    }
 }

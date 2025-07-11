@@ -1,6 +1,10 @@
 package com.adrar.api.model;
 
+import com.adrar.api.validation.PastOrPresentYear;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -13,8 +17,11 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 50, nullable = false)
+    @Length(min = 2, message="Le titre doit contenir au moins 2 caractères")
+    @NotBlank(message = "Title cannot be blank")
     private String title;
     @Column(length = 255, nullable = false)
+    @NotBlank(message = "Description cannot be blank")
     private String description;
     @Column(length = 255)
     private String cover;
@@ -22,6 +29,7 @@ public class Book {
     private String chunk;
     @Temporal(TemporalType.DATE)
     @Column(nullable = true, name = "created_at")
+    @PastOrPresentYear(min=2000)
     private Date createdAt;
 
     @ManyToOne

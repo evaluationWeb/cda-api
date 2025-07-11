@@ -10,7 +10,7 @@ public class BookDTOWrapper {
         return new BookDTO(
                 book.getTitle(),
                 book.getCreatedAt(),
-                book.getAuthor().getFirstname() + "-"
+                book.getAuthor().getFirstname()  + "-"
                        + book.getAuthor().getLastname()
         );
     }

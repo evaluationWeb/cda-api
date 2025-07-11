@@ -18,12 +18,13 @@ public class User {
     private String email;
     @Column(nullable = false, length = 100)
     private String password;
-
+    @Column(nullable = false, length = 100)
+    private String roles;
     @ManyToMany
     @JoinTable(
-            name ="user_book",
-            joinColumns = @JoinColumn( name = "id_user" ),
-            inverseJoinColumns = @JoinColumn( name = "id_book" )
+            name = "user_book",
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_book")
     )
     private List<Book> books;
 
@@ -31,13 +32,15 @@ public class User {
         this.books = new ArrayList<>();
     }
 
-    public User(String firstname, String lastname, String email, String password) {
+    public User(String firstname, String lastname, String email, String password,String roles) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.books = new ArrayList<>();
+        this.roles = roles;
     }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -88,5 +91,12 @@ public class User {
 
     public void removeBook(Book book) {
         this.books.remove(book);
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 }
