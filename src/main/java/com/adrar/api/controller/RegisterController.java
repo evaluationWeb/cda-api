@@ -69,7 +69,7 @@ public class RegisterController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserDetails> test2(@RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+    public ResponseEntity<UserDetails> me(@RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             throw  new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
