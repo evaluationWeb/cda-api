@@ -5,7 +5,15 @@ meta {
 }
 
 post {
-  url: http://locahost:9000/api/book
-  body: none
+  url: http://localhost:9000/api/book
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "title":"",
+    "description":"",
+    "createdAt":"2025-01-02"
+  }
 }
